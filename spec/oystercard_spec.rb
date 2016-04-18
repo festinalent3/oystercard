@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe OysterCard do
   let(:oystercard){ described_class.new }
+
   it 'has initial balance' do
     expect(oystercard.balance).to eq(0)
   end
@@ -15,13 +16,7 @@ describe OysterCard do
     end
   end
 
-  describe '#deduct' do
-    it 'deducts the fare from the card' do
-      oystercard.top_up(OysterCard::MAX_LIMIT)
-      expect{ oystercard.deduct 10 }.to change{ oystercard.balance }.by -10
-    end
-
-describe 'touch in' do
+  describe '#touch in' do
     it 'touches in' do
       oystercard.top_up(OysterCard::MAX_LIMIT)
       expect { oystercard.touch_in }.to change { oystercard.in_journey? }.to true
@@ -31,18 +26,13 @@ describe 'touch in' do
     end
   end
 
+  describe '#touch out' do
     it 'touches out' do
-      expect { subject.touch_out }.to change { subject.in_journey? }.to false
+      expect { oystercard.touch_out }.to change { oystercard.in_journey? }.to false
+    end
+    it 'reduces balance by MIN_FARE' do
+      expect{oystercard.touch_out}.to change {oystercard.balance}.by (- OysterCard::MIN_FARE)
     end
   end
-
-
-
-  # If your card is empty, you wouldn't get past the entry barrier on London
-  # transport network. This is because when you try to touch in, it checks the
-  # balance and refuses to touch in unless you have enough money for one journey.
-  #
-  # Let's implement this check. Assume that the minimum fare is £1 and raise an
-  # exception unless the balance is at least £1 on touch in.
 
 end

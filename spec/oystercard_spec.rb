@@ -13,12 +13,22 @@ describe Oystercard do
       expect{ subject.top_up (91) }.to raise_error "Maximum limit exceeded by 1!"
     end
   end
-  
+
   describe '#deduct' do
     it 'deducts the fare from the card' do
       subject.top_up(30)
       expect{ subject.deduct 10 }.to change{ subject.balance }.by -10
     end
+
+    it 'touches in' do
+      expect { subject.touch_in }.to change { subject.in_journey? }.to true
+    end
+
+    it 'touches out' do
+      expect { subject.touch_out }.to change { subject.in_journey? }.to false
+    end
   end
+
+
 
 end

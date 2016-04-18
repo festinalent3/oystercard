@@ -1,28 +1,35 @@
 require 'oystercard'
 
-describe Oystercard do
+describe OysterCard do
+  let(:oystercard){ described_class.new }
   it 'has initial balance' do
-    expect(subject.balance).to eq(0)
+    expect(oystercard.balance).to eq(0)
   end
 
   describe '#top_up' do
     it 'tops up the balance' do
-      expect{ subject.top_up 30 }.to change{ subject.balance }.by 30
+      expect{ oystercard.top_up OysterCard::MAX_LIMIT }.to change{ oystercard.balance }.by OysterCard::MAX_LIMIT
     end
     it 'raises and error if top up amount increase balance past £90' do
-      expect{ subject.top_up (91) }.to raise_error "Maximum limit exceeded by 1!"
+      expect{ oystercard.top_up (OysterCard::MAX_LIMIT + 1) }.to raise_error "Maximum limit exceeded by 1!"
     end
   end
 
   describe '#deduct' do
     it 'deducts the fare from the card' do
-      subject.top_up(30)
-      expect{ subject.deduct 10 }.to change{ subject.balance }.by -10
+      oystercard.top_up(OysterCard::MAX_LIMIT)
+      expect{ oystercard.deduct 10 }.to change{ oystercard.balance }.by -10
     end
 
+describe 'touch in' do
     it 'touches in' do
-      expect { subject.touch_in }.to change { subject.in_journey? }.to true
+      oystercard.top_up(OysterCard::MAX_LIMIT)
+      expect { oystercard.touch_in }.to change { oystercard.in_journey? }.to true
     end
+    it 'refuses to touch in if balance is less than £1' do
+      expect { oystercard.touch_in }.to raise_error 'Not enough money for journey'
+    end
+  end
 
     it 'touches out' do
       expect { subject.touch_out }.to change { subject.in_journey? }.to false
@@ -30,5 +37,12 @@ describe Oystercard do
   end
 
 
+
+  # If your card is empty, you wouldn't get past the entry barrier on London
+  # transport network. This is because when you try to touch in, it checks the
+  # balance and refuses to touch in unless you have enough money for one journey.
+  #
+  # Let's implement this check. Assume that the minimum fare is £1 and raise an
+  # exception unless the balance is at least £1 on touch in.
 
 end

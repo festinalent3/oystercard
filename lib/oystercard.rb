@@ -1,4 +1,5 @@
 require_relative 'station'
+require_relative 'journey'
 
 class Oystercard
 
@@ -9,36 +10,29 @@ class Oystercard
 
   def initialize
     @balance = 0
-    @in_journey = false
-    @entry_station = nil
     @journeys = []
+    # @journey = nil
   end
 
   def top_up money
-    fail "Max limit reached - Card will contain more than #{MAX_LIMIT} GBP - Top up less" if balance + money > MAX_LIMIT
+    fail "Max limit of #{MAX_LIMIT} reached" if balance + money > MAX_LIMIT
     @balance += money
   end
 
   def in_journey?
-   !!entry_station
+    !@journey.complete?
   end
 
-  def add_history (exit_station)
-    journey = {entry_station: entry_station, exit_station: exit_station}
-    @journeys.push journey
-  end
-
-
-  def touch_in entry_station
-    fail "No balance is less than 1 GBP - Can't pay for journey - Top that shit up" if balance < 1
-  #  @journey = Journey.new(station)
-    @entry_station = entry_station
+  def touch_in (entry_station = Station.new("test_name", 1))
+    fail "Balance is less than #{MIN_FARE}" if balance < MIN_FARE
+    @journey = Journey.new(entry_station)
+    #@journey.start
   end
 
   def touch_out exit_station
     deduct MIN_FARE
-    add_history(exit_station)
-    @entry_station = nil
+    @journey.finished(exit_station)
+    @journeys.push @journey
   end
 
   private

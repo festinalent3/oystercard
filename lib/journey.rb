@@ -20,7 +20,6 @@ ZONE_FARE = 1
   end
 
   def calculate_fare
-    if oystarcard.journeys.last include nil
-    (ZONE_FARE * abs( entry_station.zone - exit_station.zone )) + ZONE_FARE
+    (ZONE_FARE * ( entry_station.zone - exit_station.zone )).abs + ZONE_FARE
   end
 end

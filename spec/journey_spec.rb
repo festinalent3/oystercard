@@ -4,8 +4,8 @@ require 'journey'
 
 describe Journey do
 let(:journey) {described_class.new}
-let(:entry_station) { double :entry_station }
-let(:exit_station) { double :exit_station }
+let(:entry_station) { double :entry_station, zone: 1 }
+let(:exit_station) { double :exit_station, zone: 2 }
 
 
   it 'starts a journey' do

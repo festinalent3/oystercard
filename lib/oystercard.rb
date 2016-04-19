@@ -25,14 +25,14 @@ class Oystercard
 
   def add_history (exit_station)
     journey = {entry_station: entry_station, exit_station: exit_station}
-    @journeys.push @journey
+    @journeys.push journey
   end
 
 
   def touch_in entry_station
     fail "No balance is less than 1 GBP - Can't pay for journey - Top that shit up" if balance < 1
-    @journey = Journey.new(station)
-  #  @entry_station = entry_station
+  #  @journey = Journey.new(station)
+    @entry_station = entry_station
   end
 
   def touch_out exit_station

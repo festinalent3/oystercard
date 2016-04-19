@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   let (:card){ described_class.new }
+  let (:station){ double :station}
 
   describe "#initialize" do
     it "initilizes with a balance of 0" do
@@ -52,6 +53,14 @@ describe Oystercard do
         card.touch_in
         expect{ card.touch_out }.to change { card.balance }.by -Oystercard::MIN_FARE
       end
+    end
+  end
+
+  describe "#entry_station" do
+    it "knows which station was checked in at" do
+      card.top_up Oystercard::MIN_FARE
+      card.touch_in station
+      #expect(card.save_entry(station) ).to eq station
     end
   end
 

@@ -1,3 +1,5 @@
+require_relative 'station'
+
 class Oystercard
 
   attr_reader :balance, :journeys
@@ -32,7 +34,7 @@ class Oystercard
     @entry_station = entry_station
   end
 
-  def touch_out exit_station 
+  def touch_out exit_station
     deduct MIN_FARE
     add_history(exit_station)
     @entry_station = nil

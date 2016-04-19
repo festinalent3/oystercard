@@ -2,8 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
   let (:card){ described_class.new }
-  let (:entry_station){ double :station}
-  let (:exit_station){ double :station}
+  let (:entry_station){ double :entry_station, zone: 1}
+  let (:exit_station){ double :exit_station, zone: 2}
   let (:journey) { {entry_station: entry_station, exit_station: exit_station} }
 
 
@@ -52,6 +52,12 @@ describe Oystercard do
         card.top_up Oystercard::MAX_LIMIT
         card.touch_in (entry_station)
         expect{ card.touch_out (exit_station) }.to change { card.journeys.last }.to journey
+      end
+      it "make sure it contains zone info" do
+        card.top_up Oystercard::MAX_LIMIT
+        card.touch_in(entry_station)
+        card.touch_out(exit_station)
+        expect(card.journeys.last[:entry_station].zone).to eq entry_station.zone
       end
     end
     context "touch out changes balance" do

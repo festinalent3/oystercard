@@ -1,6 +1,6 @@
 class Oystercard
 
-  attr_reader :balance
+  attr_reader :balance, :journeys
 
   MAX_LIMIT = 90
   MIN_FARE = 1
@@ -9,6 +9,7 @@ class Oystercard
     @balance = 0
     @in_journey = false
     @entry_station = nil
+    @journeys = []
   end
 
   def top_up money
@@ -17,17 +18,23 @@ class Oystercard
   end
 
   def in_journey?
-    !!entry_station
+   !!entry_station
+  end
+
+  def add_history (exit_station)
+    journey = {entry_station: entry_station, exit_station: exit_station}
+    @journeys.push journey
   end
 
 
-  def touch_in station = true
+  def touch_in entry_station
     fail "No balance is less than 1 GBP - Can't pay for journey - Top that shit up" if balance < 1
-    @entry_station = station
+    @entry_station = entry_station
   end
 
-  def touch_out
+  def touch_out exit_station 
     deduct MIN_FARE
+    add_history(exit_station)
     @entry_station = nil
   end
 

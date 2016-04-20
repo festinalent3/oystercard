@@ -7,14 +7,14 @@ attr_reader :entry_station, :exit_station
 ZONE_FARE = 1
 PENALTY_FEE = 6
 
-  def initialize(station = nil) #= Station.new("test_name", 1))
-    @entry_station = station
+  def initialize
+    @entry_station = nil
     @exit_station = nil
   end
 
-  # def start
-  #   @entry_station #= station
-  # end
+  def start(station)
+    @entry_station = station
+  end
 
   def finished(station)
     @exit_station = station
@@ -25,10 +25,11 @@ PENALTY_FEE = 6
   end
 
   def calculate_fare
+<<<<<<< HEAD
     return PENALTY_FEE if entry_station == nil #or exit_station == nil
+=======
+    return PENALTY_FEE if !complete?
+>>>>>>> day-three
     (ZONE_FARE * ( entry_station.zone - exit_station.zone )).abs + ZONE_FARE
   end
 end
-
-#Logic: If we never touch in we don't create an instance of Journey, meaning in this case entry_station will be = nil
-# That makes it possible to raise an error when customers forgot to touch in and then touches out on another station

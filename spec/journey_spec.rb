@@ -14,27 +14,6 @@ describe Journey do
     expect { journey.finished(exit_station) }.to change{ (journey.exit_station) }.to exit_station
   end
 
-  it 'calculates fare' do
-    journey.start(entry_station)
-    journey.finished(exit_station)
-    expect(journey.calculate_fare).to eq(2 * Journey::ZONE_FARE)
-  end
-
-  it 'deducts penalty fee when someone forgot to tocuh in and then touches out' do
-    journey.finished(exit_station)
-    expect(journey.calculate_fare).to eq(Journey::PENALTY_FEE)
-  end
-
-  it 'deducts penalty fee when someone forgot to tocuh out and then touches in' do
-    journey.start(entry_station)
-    expect(journey.calculate_fare).to eq(Journey::PENALTY_FEE)
-  end
-
-  it 'deducts penalty fee when someone forgot to tocuh out and then touches in' do
-    journey.finished(exit_station)
-    expect(forgot_touch_in.calculate_fare).to eq(Journey::PENALTY_FEE)
-  end
-
   it 'returns weather or not journey is complete' do
     journey.start(entry_station)
     expect { journey.finished(exit_station) }.to change{ (journey.complete?) }.to true

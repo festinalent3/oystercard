@@ -1,5 +1,7 @@
 require_relative 'station'
 require_relative 'journey'
+require_relative 'fare_calculator'
+require_relative 'journeylog'
 
 class Oystercard
 
@@ -20,21 +22,18 @@ class Oystercard
 
   def touch_in (entry_station)
     fail "Balance is less than #{MIN_FARE}" if balance < MIN_FARE
-    @journey_log.start(entry_station)
+    journey_log.start(entry_station)
   end
 
   def touch_out (exit_station)
-    @journey_log.finish (exit_station)
-    deduct (fare_cost)
+    journey_log.finish (exit_station)
+    deduct_fare
   end
 
   private
 
-    def fare_cost
-      journey_log.journeys.last.calculate_fare
-    end
+  def deduct_fare
+    @balance  -=  FareCalculator.new(journey_log.journeys.last).calculate_fare
+  end
 
-    def deduct (money)
-      @balance -= money
-    end
 end

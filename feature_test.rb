@@ -7,37 +7,30 @@ card = Oystercard.new
 entry_station = Station.new('Bank')
 exit_station = Station.new('Old Street', 2)
 
-
-#Scenario_01
+#Scenario_01 - user completes a journey between two zones
+puts 'first scenario - user completes a journey between two zones with 90 GBP in balance'
+puts
 card.top_up(90)
 card.touch_in(entry_station)
-p card.journey
-puts
-p card.journey.complete? # False
 card.touch_out(exit_station)
+puts "new balance: #{card.balance}"
 puts
-p card.journey
+
+#Scenario_02 -
+puts 'second scenario - another journey is made and saved to journey log'
 puts
-p card.journeys
-puts
-p card.journeys.last.complete?
-p card.journey.complete? # False
 card.touch_in(exit_station)
 card.touch_out(entry_station)
+puts 'Journey_log:'
+p card.journey_log.journeys
 puts
-p card.journeys
+puts "new balance: #{card.balance}"
+puts
 
-
-
-#Scenario_02
-# card.top_up(90)
-# p card.balance #Expect eq 90
-# card.deduct(6)
-# p card.balance #Expect eq 84
-
-
-#Scenario_01
-# card.top_up(80)
-# p card.balance #Expect eq 80
-# card.top_up(20)
-# p card.balance #Expect eq 100
+#Scenario_03 - user forgets to touch in
+puts'second scenario - user forgets to touch in and pays penalty fee'
+puts
+card.touch_out(exit_station)
+puts "new balance: #{card.balance}"
+puts 'Journey_log:'
+p card.journey_log.journeys

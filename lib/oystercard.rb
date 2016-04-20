@@ -13,7 +13,7 @@ class Oystercard
     @journey_log = journey_log
   end
 
-  def top_up money
+  def top_up (money)
     fail "Max limit of #{MAX_LIMIT} reached" if balance + money > MAX_LIMIT
     @balance += money
   end
@@ -23,14 +23,18 @@ class Oystercard
     @journey_log.start(entry_station)
   end
 
-  def touch_out exit_station
-    @journey_log.finish(exit_station)
-    deduct @journey_log.journey_class.calculate_fare
+  def touch_out (exit_station)
+    @journey_log.finish (exit_station)
+    deduct (fare_cost)
   end
 
   private
 
-    def deduct money
+    def fare_cost
+      journey_log.journeys.last.calculate_fare
+    end
+
+    def deduct (money)
       @balance -= money
     end
 end

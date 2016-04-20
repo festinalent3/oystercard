@@ -1,7 +1,7 @@
 require 'journeylog'
 
 describe JourneyLog do
-	
+
 	let(:journey) { double(:journey) }
 	let(:station) { double(:station) }
 	let(:journey_class_double) { double(:journey_class_double, start: journey, entry_station: 'Not nil', exit_station: nil, finished: station )}
@@ -30,6 +30,11 @@ describe JourneyLog do
 			log.finish(station)
 			expect(log.journey_class).to have_received(:finished)
 		end
+		it 'creates a new journey' do
+			log = described_class.new
+			log.start(station)
+			expect{ log.finish(station) }.to change{ log.journey_class }
+		end
 	end
 
 	describe '#journeys' do
@@ -40,8 +45,3 @@ describe JourneyLog do
 	end
 
 end
-
-
-# a private 
-# method #current_journey should return an incomplete 
-# journey or create a new journey

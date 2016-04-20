@@ -17,6 +17,7 @@ class JourneyLog
 	def finish(station)
 		@journey_class.finished(station)
 		@journeys << journey_class
+		current_journey
 	end
 
 	def journeys
@@ -30,4 +31,3 @@ class JourneyLog
 			@journey_class = Journey.new
 		end
 end
-

@@ -11,10 +11,6 @@ describe Oystercard do
     it "initilizes with a balance of 0" do
       expect(card.balance).to eq 0
     end
-
-    it "contains an empty record of journeys" do
-      expect(card.journeys).to eq []
-    end
   end
 
   describe "#top_up" do
@@ -45,14 +41,6 @@ describe Oystercard do
         card.top_up Oystercard::MIN_FARE
         card.touch_in(entry_station) #(entry_station)
         expect{ card.touch_out (exit_station) }.to change { card.balance }.by -(Oystercard::MIN_FARE * (entry_station.zone - exit_station.zone).abs+1)
-      end
-    end
-    context "tracking journey" do
-      it 'saves the journey' do
-        expect{ card.touch_out(nil) }.to change{ card.journeys }
-      end
-      it 'resets the journey' do
-        expect{ card.touch_out (exit_station) }.to change { card.journey }
       end
     end
   end

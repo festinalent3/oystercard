@@ -25,8 +25,7 @@ PENALTY_FEE = 6
   end
 
   def calculate_fare
-    return PENALTY_FEE if entry_station == nil or exit_station == nil
-    #ADD PENALTY FARE
+    return PENALTY_FEE if entry_station == nil #or exit_station == nil
     (ZONE_FARE * ( entry_station.zone - exit_station.zone )).abs + ZONE_FARE
   end
 end

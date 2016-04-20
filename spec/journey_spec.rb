@@ -28,6 +28,12 @@ describe Journey do
     expect(forgot_touch_in.calculate_fare).to eq(Journey::PENALTY_FEE)
   end
 
+    it 'deducts penalty fee when someone forgot to tocuh out and then touches in' do
+
+      # journey.finished(exit_station)
+      # expect(forgot_touch_in.calculate_fare).to eq(Journey::PENALTY_FEE)
+    end
+
   it 'returns weather or not journey is complete' do
     #journey.start
     expect { journey.finished(exit_station) }.to change{ (journey.complete?) }.to true

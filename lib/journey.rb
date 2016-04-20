@@ -25,11 +25,7 @@ PENALTY_FEE = 6
   end
 
   def calculate_fare
-<<<<<<< HEAD
-    return PENALTY_FEE if entry_station == nil #or exit_station == nil
-=======
     return PENALTY_FEE if !complete?
->>>>>>> day-three
     (ZONE_FARE * ( entry_station.zone - exit_station.zone )).abs + ZONE_FARE
   end
 end

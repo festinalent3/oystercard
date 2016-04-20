@@ -32,13 +32,6 @@ describe Oystercard do
   end
 
   describe "#touch_in" do
-    context "standard case" do
-      it "changes status to in_journey == true" do
-        card.top_up 20
-        card.touch_in(entry_station)
-        expect(card.in_journey?).to eq true
-      end
-    end
     context "no money on card" do
       it "raises the correct error when balance is insufficient to pay for one journey" do
         expect{ card.touch_in(entry_station) }.to raise_error "Balance is less than #{Oystercard::MIN_FARE}"
@@ -47,18 +40,6 @@ describe Oystercard do
   end
 
   describe "#touch_out" do
-    context "tracking journey" do
-      it "changes status to in_journey == false" do
-        card.top_up Oystercard::MIN_FARE
-        card.touch_in(entry_station) #(entry_station)
-        expect{ card.touch_out (exit_station) }.to change { card.in_journey? }.to false
-      end
-      it 'stores history of journeys' do
-        card.top_up Oystercard::MAX_LIMIT
-        card.touch_in(entry_station) #(entry_station)
-        expect{ card.touch_out (exit_station) }.to change { card.journeys }
-      end
-    end
     context "touch out changes balance" do
       it "reduces money by Oystercard's minimum fare when you touch out" do
         card.top_up Oystercard::MIN_FARE
@@ -66,5 +47,14 @@ describe Oystercard do
         expect{ card.touch_out (exit_station) }.to change { card.balance }.by -(Oystercard::MIN_FARE * (entry_station.zone - exit_station.zone).abs+1)
       end
     end
+    context "tracking journey" do
+      it 'saves the journey' do
+        expect{ card.touch_out(nil) }.to change{ card.journeys }
+      end
+      it 'resets the journey' do
+        expect{ card.touch_out (exit_station) }.to change { card.journey }
+      end
+    end
   end
+
 end

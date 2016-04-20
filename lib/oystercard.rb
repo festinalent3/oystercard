@@ -3,7 +3,7 @@ require_relative 'journey'
 
 class Oystercard
 
-  attr_reader :balance, :journeys
+  attr_reader :balance, :journeys, :journey
 
   MAX_LIMIT = 90
   MIN_FARE = 1
@@ -19,10 +19,6 @@ class Oystercard
     @balance += money
   end
 
-  def in_journey?
-    !@journey.complete?
-  end
-
   def touch_in (entry_station)
     fail "Balance is less than #{MIN_FARE}" if balance < MIN_FARE
     @journey.start(entry_station)
@@ -31,13 +27,18 @@ class Oystercard
   def touch_out exit_station
     @journey.finished(exit_station)
     deduct @journey.calculate_fare
-    save_journey
+    save_and_reset_journey
   end
 
   private
 
-  def save_journey
+  def reset_journey
+    @journey = Journey.new
+  end
+
+  def save_and_reset_journey
     @journeys.push @journey
+    reset_journey
   end
 
   def deduct money

@@ -39,6 +39,7 @@ describe JourneyLog do
 
 	describe '#journeys' do
 		it 'returns array of journeys' do
+			log.start(station)
 			log.finish(station)
 			expect(log.journeys).to include current_journey_double
 		end

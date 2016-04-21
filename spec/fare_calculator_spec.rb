@@ -6,7 +6,6 @@ describe FareCalculator do
   let(:journey) { double(:journey, complete?: true, entry_station: entry_station, exit_station: exit_station)}
   let(:calculator) { described_class.new(journey)}
 
-
   it 'calculates fare' do
     allow(journey).to receive(:entry_station).with(:zone).and_return(1)
     allow(journey).to receive(:exit_station).with(:zone).and_return(2)

@@ -4,7 +4,7 @@ describe Oystercard do
   let (:card){ described_class.new }
   let (:entry_station){ double :entry_station, zone: 1}
   let (:exit_station){ double :exit_station, zone: 2}
-  let (:journey_hash) { {entry_station: entry_station, exit_station: exit_station} }
+  #let (:journey_hash) { {entry_station: entry_station, exit_station: exit_station} }
 
 
   describe "#initialize" do

@@ -11,6 +11,7 @@ class JourneyLog
 
 	def start(station)
 		current_journey.start(station)
+		store_journey
 		update_journey
 	end
 

@@ -30,8 +30,9 @@ class Oystercard
 
   private
 
-  def deduct_fare(calculator = FareCalculator.new(journey_log.journeys.last))
+  def deduct_fare
+    calculator = FareCalculator.new(journey_log.journeys.last)
     @balance -= calculator.calculate_fare
-end
+  end
 
 end

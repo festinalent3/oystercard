@@ -1,7 +1,7 @@
 require 'station'
 
 describe Station do
-  let (:station){ described_class.new "testname", "testzone"}
+  subject (:station){ described_class.new "testname", "testzone"}
 
   context "initialize" do
     it "initalizes with name" do

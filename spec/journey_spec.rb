@@ -3,8 +3,7 @@ require 'journey'
 describe Journey do
   let(:entry_station) { double :entry_station, zone: 1 }
   let(:exit_station) { double :exit_station, zone: 2 }
-  let(:journey) { described_class.new }
-  let(:forgot_touch_in) { described_class.new }
+  subject (:journey) { described_class.new }
 
   it 'starts a journey' do
     expect { journey.start(entry_station) }.to change{ (journey.entry_station) }.to entry_station

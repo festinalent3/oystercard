@@ -4,7 +4,7 @@ describe FareCalculator do
   let(:entry_station) { double(:entry_station, zone: 1) }
   let(:exit_station) { double(:exit_station, zone: 2) }
   let(:journey) { double(:journey, complete?: true, entry_station: entry_station, exit_station: exit_station)}
-  let(:calculator) { described_class.new(journey)}
+  subject(:calculator) { described_class.new(journey)}
 
   it 'calculates fare' do
     allow(journey).to receive(:entry_station).with(:zone).and_return(1)

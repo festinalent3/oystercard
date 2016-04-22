@@ -1,11 +1,10 @@
 require 'oystercard'
 
 describe Oystercard do
-  let (:card){ described_class.new }
+  subject (:card){ described_class.new }
   let (:entry_station){ double :entry_station, zone: 1}
   let (:exit_station){ double :exit_station, zone: 2}
-  #let (:journey_hash) { {entry_station: entry_station, exit_station: exit_station} }
-
+  let (:journey_log) { double :journey_log, start: nil }
 
   describe "#initialize" do
     it "initilizes with a balance of 0" do
@@ -31,6 +30,13 @@ describe Oystercard do
     context "no money on card" do
       it "raises the correct error when balance is insufficient to pay for one journey" do
         expect{ card.touch_in(entry_station) }.to raise_error "Balance is less than #{Oystercard::MIN_FARE}"
+      end
+    end
+    context "money on card" do
+      it 'calls journey_log.start' do
+        card.top_up Oystercard::MIN_FARE
+        expect(card.journey_log).to receive(:start).with(entry_station)
+        card.touch_in(entry_station)
       end
     end
   end

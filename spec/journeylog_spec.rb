@@ -5,7 +5,7 @@ describe JourneyLog do
 	let(:journey) { double(:journey) }
 	let(:station) { double(:station) }
 	let(:current_journey_double) { double(:current_journey_double, start: journey, entry_station: 'Not nil', exit_station: nil, finished: station )}
-	let(:log) { described_class.new(current_journey_double) }
+	subject(:log) { described_class.new(current_journey_double) }
 
 	it 'initialized with Journey class' do
 		log = JourneyLog.new(journey)
